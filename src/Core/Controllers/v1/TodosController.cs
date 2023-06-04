@@ -1,4 +1,6 @@
+using Application.Common.Models;
 using Application.CQRS.Todos.Commands.CreateTodo;
+using Application.CQRS.Todos.Queries.ListAllTodos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Controllers.v1;
@@ -18,5 +20,17 @@ public sealed class TodosController : ApiControllerBase
         {
             StatusCode = 201
         };
+    }
+
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<PaginatedList<ListAllTodosQueryDto>>> List(uint? page, uint? pageSize)
+    {
+        var command = new ListAllTodosQuery(page ?? 1, pageSize ?? 10);
+
+        var result = await Mediator.Send(command);
+
+        return Ok(result);
     }
 }
