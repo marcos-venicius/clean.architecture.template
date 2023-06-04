@@ -1,4 +1,5 @@
 using Application.Common.Models;
+using Application.CQRS.Todos.Commands.CompleteTodo;
 using Application.CQRS.Todos.Commands.CreateTodo;
 using Application.CQRS.Todos.Queries.ListAllTodos;
 using Microsoft.AspNetCore.Mvc;
@@ -32,5 +33,29 @@ public sealed class TodosController : ApiControllerBase
         var result = await Mediator.Send(command);
 
         return Ok(result);
+    }
+
+    [HttpPatch("{id:guid}/complete")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Complete(Guid id)
+    {
+        var command = new ChangeTodoStateCommand(id, true);
+
+        await Mediator.Send(command);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}/uncomplete")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Uncomplete(Guid id)
+    {
+        var command = new ChangeTodoStateCommand(id, false);
+
+        await Mediator.Send(command);
+
+        return NoContent();
     }
 }
