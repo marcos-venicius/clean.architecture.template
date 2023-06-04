@@ -22,7 +22,7 @@ public static class DependencyInjection
 
         services.AddHttpContextAccessor();
 
-        var assembly = Assembly.GetExecutingAssembly();
+        var assembly = Assembly.Load("Application");
 
         services.AddAutoMapper(assembly);
 
