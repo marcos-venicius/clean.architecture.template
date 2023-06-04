@@ -25,7 +25,7 @@ public sealed class EFContext : DbContext, IEFContext
     {
         var connectionString = _cofiguration.GetConnectionString("sqlite");
 
-        options.UseSqlite(connectionString);
+        options.UseSqlite(connectionString, b => b.MigrationsAssembly("Core"));
     }
 
     public void AutoUpdateFields()
