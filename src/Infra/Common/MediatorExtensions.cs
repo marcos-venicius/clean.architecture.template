@@ -1,5 +1,5 @@
 using Domain.Common;
-using Infra.Context;
+using Infra.Persistence;
 using MediatR;
 
 namespace Infra.Common;

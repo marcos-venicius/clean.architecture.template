@@ -2,21 +2,26 @@ using System.Reflection;
 using Application.Common.Behaviours;
 using Application.Common.Interfaces;
 using FluentValidation;
-using Infra.Context;
+using Infra.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infra;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfra(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddMemoryCache();
 
-        services.AddDbContext<EFContext>();
+        services.AddDbContext<EFContext>(options => options.UseSqlite(
+            configuration.GetConnectionString("sqlite"),
+            b => b.MigrationsAssembly(typeof(EFContext).Assembly.FullName)),
+            ServiceLifetime.Transient
+        );
 
         services.AddScoped<IEFContext>(provider => provider.GetRequiredService<EFContext>());
 

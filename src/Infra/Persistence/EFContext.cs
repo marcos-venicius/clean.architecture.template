@@ -6,27 +6,21 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Infra.Context;
+namespace Infra.Persistence;
 
 public sealed class EFContext : DbContext, IEFContext
 {
     private readonly IMediator _mediator;
     private readonly IConfiguration _cofiguration;
 
-    public EFContext(IConfiguration configuration, IMediator mediator)
+    public EFContext(DbContextOptions<EFContext> options, IConfiguration configuration, IMediator mediator)
+         : base(options)
     {
         _cofiguration = configuration;
         _mediator = mediator;
     }
 
     public DbSet<Todo> Todos { get; set; } = default!;
-
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-        var connectionString = _cofiguration.GetConnectionString("sqlite");
-
-        options.UseSqlite(connectionString, b => b.MigrationsAssembly("Core"));
-    }
 
     public void AutoUpdateFields()
     {

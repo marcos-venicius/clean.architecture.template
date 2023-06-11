@@ -14,8 +14,18 @@ click on "Use this template" to start
 
 ## Create migrations
 
+inside the solution folder
+
 ```shell
-dotnet-ef migrations add <migration_name> -o Infra/Data/Migrations --startup-project Core/Core.csproj
+dotnet-ef migrations add <migration_name> -p src/Infra/Infra.csproj -s src/Core/Core.csproj
+```
+
+## Update database
+
+inside the solution folder
+
+```shell
+dotnet-ef database update -p src/Infra/Infra.csproj -s src/Core/Core.csproj
 ```
 
 ## Run project
