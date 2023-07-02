@@ -29,7 +29,7 @@ public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleBadRequest(ExceptionContext context)
     {
-        Type type = context.Exception.GetType();
+        var type = context.Exception.GetType();
 
         if (_exceptionHandlers.ContainsKey(type))
         {
@@ -52,11 +52,11 @@ public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleException(ExceptionContext context)
     {
-        Type type = context.Exception.GetType();
+        var type = context.Exception.GetType();
 
-        if (_exceptionHandlers.ContainsKey(type))
+        if (_exceptionHandlers.TryGetValue(type, out var handler))
         {
-            _exceptionHandlers[type].Invoke(context);
+            handler.Invoke(context);
         }
         else if (!context.ModelState.IsValid)
         {
@@ -64,7 +64,7 @@ public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         }
     }
 
-    private void HandleInvalidModelStateException(ExceptionContext context)
+    private static void HandleInvalidModelStateException(ExceptionContext context)
     {
         var details = new ValidationProblemDetails(context.ModelState)
         {
@@ -76,7 +76,7 @@ public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleValidationException(ExceptionContext context)
+    private static void HandleValidationException(ExceptionContext context)
     {
         var exception = (ValidationException)context.Exception;
 
@@ -90,7 +90,7 @@ public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleNotFoundException(ExceptionContext context)
+    private static void HandleNotFoundException(ExceptionContext context)
     {
         var exception = (NotFoundException)context.Exception;
 
@@ -106,7 +106,7 @@ public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleUnauthorizedAccessException(ExceptionContext context)
+    private static void HandleUnauthorizedAccessException(ExceptionContext context)
     {
         var details = new ProblemDetails
         {
@@ -123,7 +123,7 @@ public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleForbiddenAccessException(ExceptionContext context)
+    private static void HandleForbiddenAccessException(ExceptionContext context)
     {
         var details = new ProblemDetails
         {

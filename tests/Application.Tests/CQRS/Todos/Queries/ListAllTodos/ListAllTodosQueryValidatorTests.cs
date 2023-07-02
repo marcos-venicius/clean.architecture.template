@@ -14,7 +14,7 @@ public sealed partial class ListAllTodosQueryValidatorTests
         var result = sut.Validate(command);
 
         result.IsValid.Should().BeFalse();
-        result.Errors.Single();
+        result.Errors.Should().ContainSingle();
         result.Errors[0].PropertyName.Should().Be("Page");
         result.Errors[0].ErrorMessage.Should().Be("invalid page");
     }
@@ -29,7 +29,7 @@ public sealed partial class ListAllTodosQueryValidatorTests
         var result = sut.Validate(command);
 
         result.IsValid.Should().BeFalse();
-        result.Errors.Single();
+        result.Errors.Should().ContainSingle();
         result.Errors[0].PropertyName.Should().Be("PageSize");
         result.Errors[0].ErrorMessage.Should().Be("invalid page size");
     }
@@ -44,7 +44,7 @@ public sealed partial class ListAllTodosQueryValidatorTests
         var result = sut.Validate(command);
 
         result.IsValid.Should().BeFalse();
-        result.Errors.Single();
+        result.Errors.Should().ContainSingle();
         result.Errors[0].PropertyName.Should().Be("PageSize");
         result.Errors[0].ErrorMessage.Should().Be("max of 30 items per page");
     }
@@ -67,9 +67,9 @@ public sealed partial class ListAllTodosQueryValidatorTests
 
 public sealed partial class ListAllTodosQueryValidatorTests
 {
-    private ListAllTodosQueryValidator Sut()
+    private static ListAllTodosQueryValidator Sut()
     {
-        return new();
+        return new ListAllTodosQueryValidator();
     }
 }
 

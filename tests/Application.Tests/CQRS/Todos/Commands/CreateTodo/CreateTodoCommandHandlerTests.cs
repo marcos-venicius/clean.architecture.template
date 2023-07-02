@@ -28,15 +28,15 @@ public sealed partial class CreateTodoCommandHandlerTests
 
 public sealed partial class CreateTodoCommandHandlerTests
 {
-    private readonly Mock<IEFContext> _contextMock;
+    private readonly Mock<IEfContext> _contextMock;
 
     public CreateTodoCommandHandlerTests()
     {
-        _contextMock = new Mock<IEFContext>();
+        _contextMock = new Mock<IEfContext>();
     }
 
     private CreateTodoCommandHandler Sut()
     {
-        return new(_contextMock.Object);
+        return new CreateTodoCommandHandler(_contextMock.Object);
     }
 }

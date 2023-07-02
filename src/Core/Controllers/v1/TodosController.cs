@@ -1,12 +1,12 @@
 using Application.Common.Models;
-using Application.CQRS.Todos.Commands.CompleteTodo;
+using Application.CQRS.Todos.Commands.ChangeTodoState;
 using Application.CQRS.Todos.Commands.CreateTodo;
 using Application.CQRS.Todos.Queries.ListAllTodos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Controllers.v1;
 
-[Route("/api/v{version:apiVersion}/todos")]
+[Route("/api/v{version:apiVersion}/todos/{id:guid}")]
 [ApiVersion("1.0")]
 public sealed class TodosController : ApiControllerBase
 {
@@ -35,7 +35,7 @@ public sealed class TodosController : ApiControllerBase
         return Ok(result);
     }
 
-    [HttpPatch("{id:guid}/complete")]
+    [HttpPatch("complete")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Complete(Guid id)
@@ -47,7 +47,7 @@ public sealed class TodosController : ApiControllerBase
         return NoContent();
     }
 
-    [HttpPatch("{id:guid}/uncomplete")]
+    [HttpPatch("uncomplete")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Uncomplete(Guid id)

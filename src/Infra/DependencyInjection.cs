@@ -17,13 +17,13 @@ public static class DependencyInjection
     {
         services.AddMemoryCache();
 
-        services.AddDbContext<EFContext>(options => options.UseSqlite(
+        services.AddDbContext<EfContext>(options => options.UseSqlite(
             configuration.GetConnectionString("sqlite"),
-            b => b.MigrationsAssembly(typeof(EFContext).Assembly.FullName)),
+            b => b.MigrationsAssembly(typeof(EfContext).Assembly.FullName)),
             ServiceLifetime.Transient
         );
 
-        services.AddScoped<IEFContext>(provider => provider.GetRequiredService<EFContext>());
+        services.AddScoped<IEfContext>(provider => provider.GetRequiredService<EfContext>());
 
         services.AddHttpContextAccessor();
 
@@ -66,7 +66,7 @@ public static class DependencyInjection
 
         using var scope = services.BuildServiceProvider().CreateScope();
 
-        var dbContext = scope.ServiceProvider.GetRequiredService<EFContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<EfContext>();
 
         if (dbContext.Database.GetPendingMigrations().Any())
             dbContext.Database.Migrate();

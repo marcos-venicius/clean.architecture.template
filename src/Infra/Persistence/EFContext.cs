@@ -8,21 +8,19 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infra.Persistence;
 
-public sealed class EFContext : DbContext, IEFContext
+public sealed class EfContext : DbContext, IEfContext
 {
     private readonly IMediator _mediator;
-    private readonly IConfiguration _cofiguration;
 
-    public EFContext(DbContextOptions<EFContext> options, IConfiguration configuration, IMediator mediator)
+    public EfContext(DbContextOptions<EfContext> options, IMediator mediator)
          : base(options)
     {
-        _cofiguration = configuration;
         _mediator = mediator;
     }
 
     public DbSet<Todo> Todos { get; set; } = default!;
 
-    public void AutoUpdateFields()
+    private void AutoUpdateFields()
     {
         var entries = ChangeTracker
             .Entries()

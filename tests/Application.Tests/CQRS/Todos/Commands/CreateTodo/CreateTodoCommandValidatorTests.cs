@@ -17,7 +17,7 @@ public sealed partial class CreateTodoCommandValidatorTests
         var result = sut.Validate(command);
 
         result.IsValid.Should().BeFalse();
-        result.Errors.Single();
+        result.Errors.Should().ContainSingle();
         result.Errors[0].PropertyName.Should().Be("Name");
         result.Errors[0].ErrorMessage.Should().Be("required field");
     }
@@ -32,7 +32,7 @@ public sealed partial class CreateTodoCommandValidatorTests
         var result = sut.Validate(command);
 
         result.IsValid.Should().BeFalse();
-        result.Errors.Single();
+        result.Errors.Should().ContainSingle();
         result.Errors[0].PropertyName.Should().Be("Name");
         result.Errors[0].ErrorMessage.Should().Be("min length of 3");
     }
@@ -47,7 +47,7 @@ public sealed partial class CreateTodoCommandValidatorTests
         var result = sut.Validate(command);
 
         result.IsValid.Should().BeFalse();
-        result.Errors.Single();
+        result.Errors.Should().ContainSingle();
         result.Errors[0].PropertyName.Should().Be("Name");
         result.Errors[0].ErrorMessage.Should().Be("max length of 250");
     }
@@ -70,7 +70,7 @@ public sealed partial class CreateTodoCommandValidatorTests
 
 public sealed partial class CreateTodoCommandValidatorTests
 {
-    private CreateTodoCommandValidator Sut()
+    private static CreateTodoCommandValidator Sut()
     {
         return new CreateTodoCommandValidator();
     }

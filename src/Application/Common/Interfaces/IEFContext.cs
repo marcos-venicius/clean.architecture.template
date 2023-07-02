@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Common.Interfaces;
 
-public interface IEFContext
+public interface IEfContext
 {
     public DbSet<Todo> Todos { get; }
 

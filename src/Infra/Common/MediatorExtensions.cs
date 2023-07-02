@@ -6,18 +6,20 @@ namespace Infra.Common;
 
 public static class MediatorExtensions
 {
-    public static async Task DispatchDomainEvents(this IMediator mediator, EFContext context)
+    public static async Task DispatchDomainEvents(this IMediator mediator, EfContext context)
     {
         var entities = context.ChangeTracker
             .Entries<BaseEntity>()
             .Where(e => e.Entity.DomainEvents.Any())
             .Select(e => e.Entity);
 
-        var domainEvents = entities
+        var baseEntities = entities as BaseEntity[] ?? entities.ToArray();
+        
+        var domainEvents = baseEntities
             .SelectMany(e => e.DomainEvents)
             .ToList();
 
-        entities.ToList().ForEach(e => e.ClearDomainEvents());
+        baseEntities.ToList().ForEach(e => e.ClearDomainEvents());
 
         foreach (var domainEvent in domainEvents)
             await mediator.Publish(domainEvent);

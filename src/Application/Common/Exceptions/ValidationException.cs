@@ -6,7 +6,7 @@ public sealed class ValidationException : ApplicationException
 {
     public IDictionary<string, string[]> Errors { get; }
 
-    public ValidationException() : base("one or more validations have been failed")
+    private ValidationException() : base("one or more validations have been failed")
     {
         Errors = new Dictionary<string, string[]>();
     }

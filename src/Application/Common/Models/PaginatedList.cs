@@ -9,7 +9,7 @@ public sealed class PaginatedList<T> where T : notnull
     public uint TotalPages { get; }
     public uint TotalCount { get; }
 
-    public PaginatedList(IReadOnlyCollection<T> items, uint count, uint pageNumber, uint pageSize)
+    private PaginatedList(IReadOnlyCollection<T> items, uint count, uint pageNumber, uint pageSize)
     {
         PageNumber = pageNumber;
         TotalPages = (uint)Math.Ceiling(count / (double)pageSize);

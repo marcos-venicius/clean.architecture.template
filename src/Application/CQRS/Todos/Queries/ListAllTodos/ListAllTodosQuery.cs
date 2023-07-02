@@ -10,10 +10,10 @@ public sealed record ListAllTodosQuery(uint Page, uint PageSize) : IRequest<Pagi
 
 public sealed class ListAllTodosQueryHandler : IRequestHandler<ListAllTodosQuery, PaginatedList<ListAllTodosQueryDto>>
 {
-    private readonly IEFContext _context;
+    private readonly IEfContext _context;
     private readonly IMapper _mapper;
 
-    public ListAllTodosQueryHandler(IEFContext context, IMapper mapper)
+    public ListAllTodosQueryHandler(IEfContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

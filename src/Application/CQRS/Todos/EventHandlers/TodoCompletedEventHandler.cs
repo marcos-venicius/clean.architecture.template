@@ -16,7 +16,7 @@ public sealed class TodoCompletedEventHandler : INotificationHandler<CompleteTod
     public Task Handle(CompleteTodoEvent notification, CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            @"TODO ""{name}"" COMPLETED SUCCESSFULLY",
+            @"TODO ""{Name}"" COMPLETED SUCCESSFULLY",
             notification.Name
         );
 

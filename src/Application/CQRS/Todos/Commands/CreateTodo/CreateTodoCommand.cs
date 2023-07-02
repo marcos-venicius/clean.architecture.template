@@ -9,9 +9,9 @@ public sealed record CreateTodoCommand(string Name) : IRequest<Guid>;
 
 public sealed class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, Guid>
 {
-    private readonly IEFContext _context;
+    private readonly IEfContext _context;
 
-    public CreateTodoCommandHandler(IEFContext context)
+    public CreateTodoCommandHandler(IEfContext context)
     {
         _context = context;
     }

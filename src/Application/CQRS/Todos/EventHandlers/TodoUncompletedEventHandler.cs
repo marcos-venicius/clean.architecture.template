@@ -16,7 +16,7 @@ public sealed class TodoUncompletedEventHandler : INotificationHandler<Uncomplet
     public Task Handle(UncompleteTodoEvent notification, CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            @"TODO ""{name}"" UNCOMPLETED SUCCESSFULLY",
+            @"TODO ""{Name}"" UNCOMPLETED SUCCESSFULLY",
             notification.Name
         );
 

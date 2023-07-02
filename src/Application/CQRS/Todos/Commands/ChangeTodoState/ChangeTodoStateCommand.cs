@@ -1,17 +1,18 @@
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Events.Todos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.CQRS.Todos.Commands.CompleteTodo;
+namespace Application.CQRS.Todos.Commands.ChangeTodoState;
 
-public sealed record ChangeTodoStateCommand(Guid Id, bool state) : IRequest;
+public sealed record ChangeTodoStateCommand(Guid Id, bool State) : IRequest;
 
 public sealed class ChangeTodoStateCommandHandler : IRequestHandler<ChangeTodoStateCommand>
 {
-    private readonly IEFContext _context;
+    private readonly IEfContext _context;
 
-    public ChangeTodoStateCommandHandler(IEFContext context)
+    public ChangeTodoStateCommandHandler(IEfContext context)
     {
         _context = context;
     }
@@ -26,12 +27,12 @@ public sealed class ChangeTodoStateCommandHandler : IRequestHandler<ChangeTodoSt
         if (todo is null)
             throw new NotFoundException("this task does not exists");
 
-        if (todo.Completed == request.state)
+        if (todo.Completed == request.State)
             return;
 
-        todo.Completed = request.state;
+        todo.Completed = request.State;
 
-        if (request.state)
+        if (request.State)
             todo.AddDomainEvent(new CompleteTodoEvent(todo.Name));
         else
             todo.AddDomainEvent(new UncompleteTodoEvent(todo.Name));

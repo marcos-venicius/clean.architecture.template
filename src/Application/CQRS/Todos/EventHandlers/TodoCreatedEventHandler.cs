@@ -6,9 +6,9 @@ namespace Application.CQRS.Todos.EventHandlers;
 
 public sealed class TodoCreatedEventHandler : INotificationHandler<TodoCreatedEvent>
 {
-    private readonly ILogger<TodoCreatedEvent> _logger;
+    private readonly ILogger<TodoCreatedEventHandler> _logger;
 
-    public TodoCreatedEventHandler(ILogger<TodoCreatedEvent> logger)
+    public TodoCreatedEventHandler(ILogger<TodoCreatedEventHandler> logger)
     {
         _logger = logger;
     }
@@ -16,7 +16,7 @@ public sealed class TodoCreatedEventHandler : INotificationHandler<TodoCreatedEv
     public Task Handle(TodoCreatedEvent notification, CancellationToken cancellationToken)
     {
         _logger.LogInformation(
-            @"NEW TODO CREATED ""{name}""",
+            @"NEW TODO CREATED ""{Name}""",
             notification.Name
         );
 
