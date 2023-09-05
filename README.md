@@ -28,6 +28,12 @@ inside the solution folder
 dotnet-ef database update -p src/Infra/Infra.csproj -s src/Core/Core.csproj
 ```
 
+## Running tests
+
+```shell
+dotnet test --logger="console;verbosity=detailed"
+```
+
 ## Run project
 
 ```shell
